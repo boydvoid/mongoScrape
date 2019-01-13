@@ -6,10 +6,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>MongoScrape</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
+<style>
+  .articles {
+    margin: 20px;
+    font-size: 30px;
+  }
+</style>
+
 <body>
-  {{body}}
+
+  {{{body}}}
+  <script>
+
+    $(document).ready(function () {
+      console.log("scrape")
+      $.ajax({
+        method: "GET",
+        url: "/scrape"
+      }).then(results => {
+
+        console.log('done')
+        $.ajax({
+          mehtod: "GET",
+          url: "/articles"
+        }).then(result => {
+          console.log(result)
+
+          result.forEach(item => {
+            let row = $('#mainRow');
+
+            let a = $('<a>');
+            let div = $('<div>')
+
+            div.attr("class", "articles")
+
+            a.attr("href", item.link)
+            a.text(item.title)
+            div.append(a);
+            row.append(div)
+          })
+        })
+      })
+    })
+  </script>
 </body>
 
 </html>
